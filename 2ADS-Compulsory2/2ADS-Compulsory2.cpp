@@ -7,35 +7,36 @@
 #include <stdio.h>
 #include <algorithm>
 #include <random>
+#include <chrono>
 using namespace std;
 
 vector<int> myvector;
-list<int> mylist;
 bool isSorted(vector<int> list);
 bool sortDone = false;
 int maxIteration;
-void PrintList(vector<int> list) {
+void PrintVector(vector<int> vect) {
 
-    for (int i = 0; i < list.size(); i++) {
-        cout << list[i] << "\n";
+    for (int i = 0; i < vect.size(); i++) {
+        cout << vect[i] << "\n";
     }
+
     //cout << maxIteration << " Maxiterations" << "\n";
 }
-void Shuffle(vector<int> list) {
+void Shuffle(vector<int> vect) {
 
-    if (isSorted(list) == true) {
+    if (isSorted(vect) == true) {
         
-        PrintList(list);
+        PrintVector(vect);
         return;
     }
     
-    for (int i = 0; i < list.size(); i++) {
+    for (int i = 0; i < vect.size(); i++) {
         srand(time(NULL));
-        swap(list[i], list[rand() % (list.size())]);
+        swap(vect[i], vect[rand() % (vect.size())]);
         //PrintList(list);
         //cout << list[rand() % (list.size() - 1)] << "\n";
-        if (isSorted(list) == true) {
-            PrintList(list);
+        if (isSorted(vect) == true) {
+            PrintVector(vect);
 
             return;
         }
@@ -52,102 +53,109 @@ bool CheckifSorted(vector<int>& vect) {
         }
     }
     cout << "Sorted\n";
-    PrintList(vect);
+    PrintVector(vect);
     return true;
 }
-void Bogosort(std::vector<int>& list) {
+void Bogosort(std::vector<int>& vect) {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    while (!CheckifSorted(list)) {
-        std::random_shuffle(list.begin(), list.end());
+    while (!CheckifSorted(vect)) {
+        std::random_shuffle(vect.begin(), vect.end());
     }
 }
-void ShellSort(vector<int> l) {
+void ShellSort(vector<int> vect) {
 
-    if (isSorted(l) || l.size() <= 1) {
+    if (CheckifSorted(vect) || vect.size() <= 1) {
 
         return;
     }
     else {
-        for (int gap = (l.size() - 1 / 2); gap > 0; gap /= 2) {
+        for (int gap = (vect.size() - 1 / 2); gap > 0; gap /= 2) {
 
 
-            for (int i = gap; i < l.size() - 1; i += 1) {
+            for (int i = gap; i < vect.size() - 1; i += 1) {
 
-                int temp = l[i];
+                int temp = vect[i];
 
 
                 int j;
-                for (j = i; j >= gap && l[j - gap] > temp; j -= gap)
-                    l[j] = l[j - gap];
+                for (j = i; j >= gap && vect[j - gap] > temp; j -= gap)
+                    vect[j] = vect[j - gap];
 
 
-                l[j] = temp;
+                vect[j] = temp;
 
             }
 
         }
-        if (!isSorted(l)) {
-            ShellSort(l);
+        if (!CheckifSorted(vect)) {
+            ShellSort(vect);
         }
-        else {
-            PrintList(l);
-            return;
-        }
+        
 
     }
 }
 void CockTailSort(vector<int> l) {
 
-    if (isSorted(l) || l.size() <= 1) {
+    if (CheckifSorted(l) || l.size() <= 1) {
+        
         return;
     }
-    else {
-        for (int i = 0; i < l.size() - 1; i++) {
-            if (l[i] > l[i + 1]) {
-                swap(l[i], l[i + 1]);
-
-            }
+    bool swapped = false;
+    for (int i = 0; i < l.size() - 1; i++) {
+        if (l[i] > l[i + 1]) {
+            swap(l[i], l[i + 1]);
+            swapped = true;
         }
-        for (int i = 0; i < l.size() - 1; i++) {
-            if (l[i] > l[i + 1]) {
-                swap(l[i], l[i + 1]);
-
-            }
-        }
-        if (!isSorted(l)) {
-            CockTailSort(l);
-        }
-        else {
-            PrintList(l);
-            return;
-        }
-
     }
+    if (!swapped) {
+        return;
+    }
+    for (int i = 0; i < l.size() - 1; i++) {
+        if (l[i] > l[i + 1]) {
+            swap(l[i], l[i + 1]);
+            swapped = true;
+        }
+    }
+    if (swapped) {
+        CockTailSort(l);
+    }
+    /*if (!CheckifSorted(l)) {
+       
+    }
+    else {
+
+        return;
+    }*/
+        
+
+    
 
 
 }
 
-bool isSorted(vector<int> list) {
+
+bool isSorted(vector<int> vect) {
     int front;
 
-    if (list.empty() || list.size() <= 1)
+    if (vect.empty() || vect.size() <= 1)
     {
         cout << "Sorted\n";
+        PrintVector(vect);
         return true;
 
     }
 
     else
     {
-        front = list.front();
-        list.erase(list.begin());
-        if (front > list.front())
+        front = vect.front();
+        vect.erase(vect.begin());
+        if (front > vect.front())
         {
             cout << "not Sorted\n";
             return false;
         }
-        isSorted(list);
+        isSorted(vect);
     }
 }
 
@@ -162,15 +170,45 @@ int main()
     //NOTE WORKS ONLY FOR VS 2022 or later version
 
     int listSize = 10;
+    int userInupt;
     printf("hello from %s!\n", "Cocktailsort");
+    printf("Choose sorting method: \n");
+    printf("1: Cocktailsort \n");
+    printf("2: Shellsort \n");
+    printf("3: Bogosort \n");
+    cin >> userInupt;
     srand(time(NULL));
     for (int i = 0; i < listSize; i++) {
         
-        myvector.push_back(rand() % 10 + 1);
+        myvector.push_back(rand() % 20 + 1);
     }
     cout << "Original array" << "\n";
-    PrintList(myvector);
-    Bogosort(myvector);
+    PrintVector(myvector);
+
+    switch (userInupt) {
+    case 1:
+        CockTailSort(myvector);
+        break;
+    case 2:
+        ShellSort(myvector);
+        break;
+    case 3:
+        Bogosort(myvector);
+        break;
+    }
+    auto start_time = std::chrono::high_resolution_clock::now();
+    //CockTailSort(myvector);
     
+
+    //Start timer
+    auto end_time = std::chrono::high_resolution_clock::now();
+
+    // Calculate the duration in milliseconds
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+    // Convert the duration to milliseconds and print it
+    long long milliseconds = duration.count();
+    std::cout << "Time elapsed: " << milliseconds << " milliseconds" << std::endl;
+
     return 0;
 }
