@@ -70,10 +70,10 @@ void ShellSort(vector<int> vect) {
         return;
     }
     else {
-        for (int gap = (vect.size() - 1 / 2); gap > 0; gap /= 2) {
+        for (int gap = (vect.size()/ 2); gap > 0; gap /= 2) {
 
 
-            for (int i = gap; i < vect.size() - 1; i += 1) {
+            for (int i = gap; i < vect.size(); i += 1) {
 
                 int temp = vect[i];
 
@@ -162,53 +162,68 @@ bool isSorted(vector<int> vect) {
 int main()
 {
 
-    // TODO
-    // ADD XML Doc(comments
-    // Add switch to choose between sorting functions
-    // Add user input
-    // Description for each function
-    //NOTE WORKS ONLY FOR VS 2022 or later version
+    int input;
+    bool isRunning = true;
+    while (isRunning) {
+        // TODO
+   // ADD XML Doc(comments
+   // Add switch to choose between sorting functions
+   // Add user input
+   // Description for each function
+   //NOTE WORKS ONLY FOR VS 2022 or later version
 
-    int listSize = 10;
-    int userInupt;
-    printf("hello from %s!\n", "Cocktailsort");
-    printf("Choose sorting method: \n");
-    printf("1: Cocktailsort \n");
-    printf("2: Shellsort \n");
-    printf("3: Bogosort \n");
-    cin >> userInupt;
-    srand(time(NULL));
-    for (int i = 0; i < listSize; i++) {
-        
-        myvector.push_back(rand() % 20 + 1);
-    }
-    cout << "Original array" << "\n";
-    PrintVector(myvector);
+        int listSize;
+        int userInupt;
+        // printf("hello from %s!\n", "Cocktailsort");
+        printf("Choose list size \n");
+        cin >> listSize;
+        printf("Choose sorting method: \n");
+        printf("1: Cocktailsort \n");
+        printf("2: Shellsort \n");
+        printf("3: Bogosort \n");
+        cin >> userInupt;
 
-    switch (userInupt) {
-    case 1:
-        CockTailSort(myvector);
-        break;
-    case 2:
-        ShellSort(myvector);
-        break;
-    case 3:
-        Bogosort(myvector);
-        break;
+        srand(time(NULL));
+        for (int i = 0; i < listSize; i++) {
+
+            myvector.push_back(rand() % 20 + 1);
+        }
+        cout << "Original array" << "\n";
+        PrintVector(myvector);
+        auto start_time = std::chrono::high_resolution_clock::now();
+        switch (userInupt) {
+        case 1:
+            CockTailSort(myvector);
+            break;
+        case 2:
+            ShellSort(myvector);
+            break;
+        case 3:
+            Bogosort(myvector);
+            break;
+        }
+        //Start timer
+
+        auto end_time = std::chrono::high_resolution_clock::now();
+
+        // Calculate the duration in milliseconds
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        // Convert the duration to milliseconds and print it
+        long long milliseconds = duration.count();
+        std::cout << "Time elapsed: " << milliseconds << " milliseconds" << std::endl;
+        cout << "Type 1 to continue any other number to stop" << "\n";
+        cin >> input;
+        if (input == 1) {
+            isRunning = true;
+            listSize = 0;
+            myvector.clear();
+        }
+        else {
+            isRunning = false;
+        }
+
     }
-    auto start_time = std::chrono::high_resolution_clock::now();
-    //CockTailSort(myvector);
+   
     
-
-    //Start timer
-    auto end_time = std::chrono::high_resolution_clock::now();
-
-    // Calculate the duration in milliseconds
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-
-    // Convert the duration to milliseconds and print it
-    long long milliseconds = duration.count();
-    std::cout << "Time elapsed: " << milliseconds << " milliseconds" << std::endl;
-
-    return 0;
 }
