@@ -11,9 +11,13 @@
 using namespace std;
 
 vector<int> myvector;
-bool isSorted(vector<int> list);
+bool CheckifSorted(vector<int>& vect);
 bool sortDone = false;
 int maxIteration;
+/// <summary>
+/// Prints the vector to show its contents
+/// </summary>
+/// <param name="vect"></param>
 void PrintVector(vector<int> vect) {
 
     for (int i = 0; i < vect.size(); i++) {
@@ -22,9 +26,14 @@ void PrintVector(vector<int> vect) {
 
     //cout << maxIteration << " Maxiterations" << "\n";
 }
+/// <summary>
+/// Shuffles the vector,by selecting random indexs and swapping 
+/// them each time the method is called
+/// </summary>
+/// <param name="vect"></param>
 void Shuffle(vector<int> vect) {
 
-    if (isSorted(vect) == true) {
+    if (CheckifSorted(vect) == true) {
         
         PrintVector(vect);
         return;
@@ -35,7 +44,7 @@ void Shuffle(vector<int> vect) {
         swap(vect[i], vect[rand() % (vect.size())]);
         //PrintList(list);
         //cout << list[rand() % (list.size() - 1)] << "\n";
-        if (isSorted(vect) == true) {
+        if (CheckifSorted(vect)) {
             PrintVector(vect);
 
             return;
@@ -44,6 +53,13 @@ void Shuffle(vector<int> vect) {
     }
     
 }
+/// <summary>
+/// The method that checks if the vector is sorted.
+/// It compares the current with the next one 
+/// and if the next one is lesser it returns false
+/// </summary>
+/// <param name="vect"></param>
+/// <returns></returns>
 bool CheckifSorted(vector<int>& vect) {
     for (int i = 1; i < vect.size(); i++) {
         if (vect[i] < vect[i - 1]) {
@@ -56,6 +72,10 @@ bool CheckifSorted(vector<int>& vect) {
     PrintVector(vect);
     return true;
 }
+/// <summary>
+/// The bogo sort function
+/// </summary>
+/// <param name="vect"></param>
 void Bogosort(std::vector<int>& vect) {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
@@ -63,6 +83,10 @@ void Bogosort(std::vector<int>& vect) {
         std::random_shuffle(vect.begin(), vect.end());
     }
 }
+/// <summary>
+/// Shellsort function
+/// </summary>
+/// <param name="vect"></param>
 void ShellSort(vector<int> vect) {
 
     if (CheckifSorted(vect) || vect.size() <= 1) {
@@ -95,6 +119,10 @@ void ShellSort(vector<int> vect) {
 
     }
 }
+/// <summary>
+/// Cocktail sorting function
+/// </summary>
+/// <param name="l"></param>
 void CockTailSort(vector<int> l) {
 
     if (CheckifSorted(l) || l.size() <= 1) {
@@ -135,29 +163,7 @@ void CockTailSort(vector<int> l) {
 }
 
 
-bool isSorted(vector<int> vect) {
-    int front;
 
-    if (vect.empty() || vect.size() <= 1)
-    {
-        cout << "Sorted\n";
-        PrintVector(vect);
-        return true;
-
-    }
-
-    else
-    {
-        front = vect.front();
-        vect.erase(vect.begin());
-        if (front > vect.front())
-        {
-            cout << "not Sorted\n";
-            return false;
-        }
-        isSorted(vect);
-    }
-}
 
 int main()
 {
@@ -165,13 +171,6 @@ int main()
     int input;
     bool isRunning = true;
     while (isRunning) {
-        // TODO
-   // ADD XML Doc(comments
-   // Add switch to choose between sorting functions
-   // Add user input
-   // Description for each function
-   //NOTE WORKS ONLY FOR VS 2022 or later version
-
         int listSize;
         int userInupt;
         // printf("hello from %s!\n", "Cocktailsort");
@@ -185,8 +184,8 @@ int main()
 
         srand(time(NULL));
         for (int i = 0; i < listSize; i++) {
-
-            myvector.push_back(rand() % 20 + 1);
+            
+            myvector.push_back(rand() % 20 + 1); // adds random numbers to a vector
         }
         cout << "Original array" << "\n";
         PrintVector(myvector);
@@ -213,7 +212,7 @@ int main()
         long long milliseconds = duration.count();
         std::cout << "Time elapsed: " << milliseconds << " milliseconds" << std::endl;
         cout << "Type 1 to continue any other number to stop" << "\n";
-        cin >> input;
+        cin >> input; // to keep the program running
         if (input == 1) {
             isRunning = true;
             listSize = 0;
