@@ -12,8 +12,7 @@ using namespace std;
 
 vector<int> myvector;
 bool CheckifSorted(vector<int>& vect);
-bool sortDone = false;
-int maxIteration;
+
 /// <summary>
 /// Prints the vector to show its contents
 /// </summary>
@@ -164,7 +163,10 @@ void CockTailSort(vector<int> l) {
 
 
 
-
+/// <summary>
+/// This is the main function, it runs the user interface/main menu
+/// </summary>
+/// <returns></returns>
 int main()
 {
 
